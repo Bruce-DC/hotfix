@@ -1,0 +1,5 @@
+person={
+	age=26,
+	name="博士",
+	man=false,
+}
