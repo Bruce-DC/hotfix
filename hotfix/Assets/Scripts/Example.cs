@@ -31,9 +31,32 @@ public class Example : MonoBehaviour
         //Person person = SingleLuaEnv.LuaEnv.Global.Get<Person>("person");
         //Debug.Log(string.Format("{0};{1};{2}.",person.age,person.name,person.man));
 
-        //C#获取Lua中的全局Table--映射到接口
-        IPerson person = SingleLuaEnv.LuaEnv.Global.Get<IPerson>("person");
-        Debug.Log(string.Format("{0};{1};{2}.", person.age, person.name, person.man));
+        //C#获取Lua中的全局Table--映射到接口--建议使用！
+        //IPerson person = SingleLuaEnv.LuaEnv.Global.Get<IPerson>("person");
+        //Debug.Log(string.Format("{0};{1};{2}.", person.age, person.name, person.man));
+
+        //C#获取Lua中的全局Table--映射到Dictionary或List
+        //Dictionary映射有键的值，List映射没有键的值
+        //Dictionary<string, object> dic = SingleLuaEnv.LuaEnv.Global.Get<Dictionary<string, object>>("person");
+        //foreach(string key in dic.Keys)
+        //{
+        //    Debug.Log(key+":"+dic[key]);
+        //}
+        //List<object> list = SingleLuaEnv.LuaEnv.Global.Get<List<object>>("person");
+        //foreach(object o in list)
+        //{
+        //    Debug.Log(o);
+        //}
+
+        //C#获取Lua中的全局Table--通过LuaTable
+        //LuaTable luaTable = SingleLuaEnv.LuaEnv.Global.Get<LuaTable>("person");
+        //print(luaTable.Get<string>("name"));
+
+        //C#通过delegate访问Lua中的function
+        Run run = SingleLuaEnv.LuaEnv.Global.Get<Run>("Run");
+        run();
+        Fly fly = SingleLuaEnv.LuaEnv.Global.Get<Fly>("Fly");
+        fly(false);
     }
 
     struct Person
@@ -42,7 +65,7 @@ public class Example : MonoBehaviour
         public string name;
         public bool man;
     }
-
+    
     [CSharpCallLua]
     interface IPerson
     {
@@ -50,6 +73,10 @@ public class Example : MonoBehaviour
         string name { get; set; }
         bool man { get; set; }
     }
+
+    delegate void Run();
+
+    delegate void Fly(bool isCan);
 
     byte[] loader(ref string fileName)
     {
@@ -59,8 +86,6 @@ public class Example : MonoBehaviour
             return null;
 
         return File.ReadAllBytes(filePath);
-
-        //return System.Text.Encoding.UTF8.GetBytes(File.ReadAllText(filePath));
     }
 
     void OnDestroy()

@@ -1,5 +1,23 @@
 person={
-	age=26,
+	age=26,26,3.3,6,5,9,8,7,3,4,2,
 	name="博士",
 	man=false,
+	eat=function(self,a,b)
+		print(a+b)
+	end
 }
+
+function Run()
+	print("我会跑");
+
+end
+
+function Fly(isCan)
+	print(type(isCan))
+	if(isCan)
+	then
+	print("我会飞");
+	else
+	print("我不会飞");
+	end
+end
